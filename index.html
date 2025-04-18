@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CombienDeQuoi 💸🧾</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #ff8a00, #e52e71);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 10px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            border: none;
+            width: 200px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #e52e71;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .object {
+            margin: 5px;
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>💸 CombienDeQuoi 💡</h1>
+<p>Entre une somme en € et vois combien d'objets ça représente !</p>
+
+<input type="number" id="moneyInput" placeholder="Ex: 10000€">
+<button onclick="calculate()">Calculer</button>
+
+<div class="results" id="results"></div>
+
+<script>
+    const OBJECTS = [
+        { name: "PlayStation 5", price: 549, img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/PS5_console.png" },
+        { name: "Café", price: 2, img: "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG" },
+        { name: "Baguette", price: 1.2, img: "https://upload.wikimedia.org/wikipedia/commons/d/d8/French_baguette.jpg" },
+        { name: "Tesla Model 3", price: 42990, img: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Tesla_Model_3_parked%2C_front_driver_side.jpg" },
+        { name: "iPhone 15", price: 1200, img: "https://upload.wikimedia.org/wikipedia/commons/f/fd/IPhone_15_Pro.png" }
+    ];
+
+    function calculate() {
+        const input = document.getElementById('moneyInput').value;
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = "";
+
+        if (!input || input <= 0) {
+            alert("Entre une somme supérieure à zéro !");
+            return;
+        }
+
+        OBJECTS.forEach(obj => {
+            let quantity = Math.floor(input / obj.price);
+            if (quantity === 0) return;
+
+            let title = document.createElement('h3');
+            title.textContent = `${quantity}x ${obj.name}`;
+            resultsDiv.appendChild(title);
+
+            let container = document.createElement('div');
+            container.style.display = 'flex';
+            container.style.flexWrap = 'wrap';
+            container.style.justifyContent = 'center';
+
+            for (let i = 0; i < quantity && i < 200; i++) {  // Limite visuelle
+                let item = document.createElement('div');
+                item.className = "object";
+                item.style.backgroundImage = `url(${obj.img})`;
+                container.appendChild(item);
+            }
+
+            if (quantity > 200) {
+                let note = document.createElement('p');
+                note.textContent = `...et ${quantity - 200} de plus !`;
+                note.style.color = "#FFD700";
+                container.appendChild(note);
+            }
+
+            resultsDiv.appendChild(container);
+        });
+    }
+</script>
+
+</body>
+</html>
